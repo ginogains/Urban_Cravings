@@ -1,0 +1,6 @@
+import { useState } from "react";
+export default function ManageBookings() {
+  const [bookings, setBookings] = useState(() => JSON.parse(localStorage.getItem("uc-bookings") || "[]"));
+  function remove(id) { const next = bookings.filter((booking) => booking.id !== id); setBookings(next); localStorage.setItem("uc-bookings", JSON.stringify(next)); }
+  return <div className="booking-admin"><h2>Reservation requests</h2>{!bookings.length ? <div className="empty-state compact"><h3>No bookings yet</h3><p>Demo reservations submitted through the Reservations page will appear here.</p></div> : <div className="table-scroll"><table><thead><tr><th>Name</th><th>Date</th><th>Time</th><th>Guests</th><th>Contact</th><th>Action</th></tr></thead><tbody>{bookings.map((b) => <tr key={b.id}><td>{b.name}</td><td>{b.date}</td><td>{b.time}</td><td>{b.guests}</td><td>{b.email}<br />{b.phone}</td><td><button className="small-action danger" onClick={() => remove(b.id)}>Delete</button></td></tr>)}</tbody></table></div>}</div>;
+}
